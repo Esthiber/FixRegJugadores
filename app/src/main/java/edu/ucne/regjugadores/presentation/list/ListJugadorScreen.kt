@@ -11,9 +11,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -85,7 +85,7 @@ fun JugadorCard(
             verticalAlignment = Alignment.CenterVertically
         ){
             Column(modifier = Modifier.weight(1f)){
-                Text(jugador.Nombres,style = MaterialTheme.typography.h3)
+                Text(jugador.Nombres,style = MaterialTheme.typography.titleMedium)
                 Text("Partidas: ${jugador.Partidas}")
             }
             TextButton(
