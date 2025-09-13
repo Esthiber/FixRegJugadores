@@ -9,8 +9,8 @@ class UpsertPartidaUseCase @Inject constructor(
     private val repository: PartidaRepository
 ) {
     suspend operator fun invoke(partida: Partida): Result<Int> {
-        val j1Result = validateJugador1(partida.jugador1ID.toString())
-        val j2Result = validateJugador2(partida.jugador2ID.toString())
+        val j1Result = validateJugador1(partida.jugador1ID.toString(),partida.jugador2ID.toString())
+        val j2Result = validateJugador2(partida.jugador2ID.toString(), partida.jugador1ID.toString())
 
         if (!j1Result.isValid)
             return Result.failure(IllegalArgumentException("Jugador 1: ${j1Result.error}}"))
