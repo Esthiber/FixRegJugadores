@@ -1,4 +1,4 @@
-package edu.ucne.regjugadores.data.jugadores.local.database
+package edu.ucne.regjugadores.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
