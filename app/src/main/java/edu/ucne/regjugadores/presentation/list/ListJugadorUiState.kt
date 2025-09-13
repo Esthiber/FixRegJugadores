@@ -1,6 +1,6 @@
 package edu.ucne.regjugadores.presentation.list
 
-import edu.ucne.regjugadores.domain.model.Jugador
+import edu.ucne.regjugadores.domain.jugador.model.Jugador
 
 data class ListJugadorUiState(
     val isLoading: Boolean = false,

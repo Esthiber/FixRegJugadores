@@ -1,4 +1,4 @@
-package edu.ucne.regjugadores.domain.model
+package edu.ucne.regjugadores.domain.jugador.model
 
 data class Jugador(
     val JugadorId: Int = 0,

@@ -1,4 +1,4 @@
-package edu.ucne.regjugadores.domain.usecase
+package edu.ucne.regjugadores.domain.jugador.usecase
 
 data class ValidacionesJugador(
     val isValid:Boolean,

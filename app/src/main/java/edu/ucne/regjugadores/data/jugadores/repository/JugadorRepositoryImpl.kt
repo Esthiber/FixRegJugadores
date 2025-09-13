@@ -3,8 +3,8 @@ package edu.ucne.regjugadores.data.jugadores.repository
 import edu.ucne.regjugadores.data.jugadores.local.JugadorDao
 import edu.ucne.regjugadores.data.jugadores.mapper.toDomain
 import edu.ucne.regjugadores.data.jugadores.mapper.toEntity
-import edu.ucne.regjugadores.domain.model.Jugador
-import edu.ucne.regjugadores.domain.repository.JugadorRepository
+import edu.ucne.regjugadores.domain.jugador.model.Jugador
+import edu.ucne.regjugadores.domain.jugador.repository.JugadorRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

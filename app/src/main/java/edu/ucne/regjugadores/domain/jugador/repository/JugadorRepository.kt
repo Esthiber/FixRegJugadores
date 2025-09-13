@@ -1,6 +1,6 @@
-package edu.ucne.regjugadores.domain.repository
+package edu.ucne.regjugadores.domain.jugador.repository
 
-import edu.ucne.regjugadores.domain.model.Jugador
+import edu.ucne.regjugadores.domain.jugador.model.Jugador
 import kotlinx.coroutines.flow.Flow
 
 interface JugadorRepository {
