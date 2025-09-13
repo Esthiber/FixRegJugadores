@@ -115,5 +115,4 @@ class EditJugadorViewModel @Inject constructor(
             _state.update {it.copy(isDeleting = false, deleted = true)}
         }
     }
-
 }
