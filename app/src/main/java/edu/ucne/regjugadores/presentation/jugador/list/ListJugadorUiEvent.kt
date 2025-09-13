@@ -1,4 +1,4 @@
-package edu.ucne.regjugadores.presentation.list
+package edu.ucne.regjugadores.presentation.jugador.list
 
 interface ListJugadorUiEvent {
     data object Load : ListJugadorUiEvent

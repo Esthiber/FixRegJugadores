@@ -1,4 +1,4 @@
-package edu.ucne.regjugadores.presentation.list
+package edu.ucne.regjugadores.presentation.jugador.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

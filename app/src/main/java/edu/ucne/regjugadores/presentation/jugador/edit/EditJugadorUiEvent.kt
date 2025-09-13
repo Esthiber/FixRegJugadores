@@ -1,4 +1,4 @@
-package edu.ucne.regjugadores.presentation.edit
+package edu.ucne.regjugadores.presentation.jugador.edit
 
 sealed interface EditJugadorUiEvent {
     data class Load(val id: Int?) : EditJugadorUiEvent
