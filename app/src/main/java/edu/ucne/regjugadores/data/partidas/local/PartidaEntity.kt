@@ -32,9 +32,9 @@ import java.util.Date
 class PartidaEntity (
     @PrimaryKey(autoGenerate = true)
     val partidaId: Int = 0,
-    val fecha: String = "",
+    val fecha: String,
     val jugador1ID: Int = 0,
     val jugador2ID: Int = 0,
-    val ganadorID: Int? = null,
+    val ganadorID: Int?,
     val esFinalizada: Boolean = false,
     )
