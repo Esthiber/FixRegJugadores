@@ -1,5 +1,7 @@
 package edu.ucne.regjugadores.presentation.partida.edit
 
+import edu.ucne.regjugadores.presentation.jugador.edit.EditJugadorUiEvent
+
 sealed interface EditPartidaUiEvent {
     data class Load(val id:Int?) : EditPartidaUiEvent
     data class FechaChanged(val value: String) : EditPartidaUiEvent
@@ -7,4 +9,7 @@ sealed interface EditPartidaUiEvent {
     data class Jugador2IDChanged(val value: Int) : EditPartidaUiEvent
     data class GanadorIDChanged(val value: Int?) : EditPartidaUiEvent
     data class EsFinalizadaChanged(val value: Boolean) : EditPartidaUiEvent
+
+    data object Save: EditPartidaUiEvent
+    data object Delete: EditPartidaUiEvent
 }
