@@ -4,7 +4,7 @@ import java.util.Date
 
 data class EditPartidaUiState(
     val partidaId: Int? = null,
-    val fecha: Date = Date(),
+    val fecha: String = Date().toString(),
     val jugador1ID: Int = 0,
     val jugador2ID: Int = 0,
     val ganadorID: Int? = null,

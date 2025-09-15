@@ -34,9 +34,8 @@ class EditPartidaViewModel @Inject constructor(
         when (event) {
             is EditPartidaUiEvent.Load -> onLoad(id = event.id)
             is EditPartidaUiEvent.FechaChanged -> _state.update {
-                it.copy(fecha = Date()) // TODO debe tomar el valor del evento que es string y convertirlo a Date
+                it.copy(fecha = state.value.fecha)
             }
-
             is EditPartidaUiEvent.Jugador1IDChanged -> _state.update {
                 it.copy(jugador1ID = event.value, jugador1Error = null)
             }
@@ -52,6 +51,10 @@ class EditPartidaViewModel @Inject constructor(
             is EditPartidaUiEvent.EsFinalizadaChanged -> _state.update {
                 it.copy(esFinalizada = event.value)
             }
+
+            EditPartidaUiEvent.Delete -> onSave()
+
+            EditPartidaUiEvent.Save -> onDelete()
         }
     }
 

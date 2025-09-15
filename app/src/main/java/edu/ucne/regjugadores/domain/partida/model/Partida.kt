@@ -4,7 +4,7 @@ import java.util.Date
 
 data class Partida(
     val partidaId: Int = 0,
-    val fecha: Date = Date(),
+    val fecha: String = "",
     val jugador1ID: Int = 0,
     val jugador2ID: Int = 0,
     val ganadorID: Int? = null,
