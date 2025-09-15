@@ -17,11 +17,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import edu.ucne.regjugadores.presentation.edit.EditJugadorScreen
-import edu.ucne.regjugadores.presentation.edit.EditJugadorUiEvent
-import edu.ucne.regjugadores.presentation.edit.EditJugadorViewModel
-import edu.ucne.regjugadores.presentation.list.ListJugadorViewModel
-import edu.ucne.regjugadores.presentation.list.ListJugadoresScreen
+import edu.ucne.regjugadores.presentation.jugador.edit.EditJugadorScreen
+import edu.ucne.regjugadores.presentation.jugador.edit.EditJugadorUiEvent
+import edu.ucne.regjugadores.presentation.jugador.edit.EditJugadorViewModel
+import edu.ucne.regjugadores.presentation.jugador.list.ListJugadorViewModel
+import edu.ucne.regjugadores.presentation.jugador.list.ListJugadoresScreen
+import edu.ucne.regjugadores.presentation.partida.edit.EditPartidaScreen
+import edu.ucne.regjugadores.presentation.partida.edit.EditPartidaViewModel
+import edu.ucne.regjugadores.presentation.partida.list.ListPartidaScreen
+import edu.ucne.regjugadores.presentation.partida.list.ListPartidaViewModel
 import edu.ucne.regjugadores.ui.theme.RegJugadoresTheme
 
 @AndroidEntryPoint
@@ -31,6 +35,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             RegJugadoresTheme {
+                val editPartidaViewModel: EditPartidaViewModel = hiltViewModel()
+                val listPartidaViewModel: ListPartidaViewModel = hiltViewModel()
+
                 val editViewModel: EditJugadorViewModel = hiltViewModel()
                 val listViewModel: ListJugadorViewModel = hiltViewModel()
                 val listState by listViewModel.state.collectAsState()
@@ -48,8 +55,10 @@ class MainActivity : ComponentActivity() {
                             .fillMaxSize()
                             .padding(innerPadding)
                     ){
-                        EditJugadorScreen(viewModel = editViewModel)
-                        ListJugadoresScreen(viewModel = listViewModel)
+                        EditPartidaScreen(viewModel = editPartidaViewModel)
+                        ListPartidaScreen(viewModel = listPartidaViewModel)
+//                        EditJugadorScreen(viewModel = editViewModel)
+//                        ListJugadoresScreen(viewModel = listViewModel)
                     }
                 }
             }
