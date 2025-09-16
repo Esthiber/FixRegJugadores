@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import edu.ucne.regjugadores.presentation.components.TopBarComponent
-import edu.ucne.regjugadores.presentation.jugador.JugadoresScreenBody
 import edu.ucne.regjugadores.presentation.partida.edit.EditPartidaScreen
 import edu.ucne.regjugadores.presentation.partida.edit.EditPartidaViewModel
 import edu.ucne.regjugadores.presentation.partida.list.ListPartidaScreen
