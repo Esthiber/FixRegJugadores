@@ -1,5 +1,6 @@
 package edu.ucne.regjugadores.presentation.partida.edit
 
+import edu.ucne.regjugadores.domain.jugador.model.Jugador
 import java.util.Date
 
 data class EditPartidaUiState(
@@ -11,6 +12,10 @@ data class EditPartidaUiState(
     val esFinalizada: Boolean = false,
     val jugador1Error: String? = null,
     val jugador2Error: String? = null,
+
+
+    val listaJugadores: List<Jugador> = emptyList(),
+    val jugadoresLoading: Boolean = true,
 
     val isSaving: Boolean = false,
     val isDeleting: Boolean = false,

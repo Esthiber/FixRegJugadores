@@ -14,7 +14,6 @@ import edu.ucne.regjugadores.domain.partida.usecase.validateJugador1
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -24,11 +23,16 @@ import javax.inject.Inject
 class EditPartidaViewModel @Inject constructor(
     private val getPartidaByIdUseCase: GetPartidaByIdUseCase,
     private val upsertPartidaUseCase: UpsertPartidaUseCase,
-    private val deletePartidaUseCase: DeletePartidaUseCase
+    private val deletePartidaUseCase: DeletePartidaUseCase,
+    private val observeJugadorUseCase: ObserveJugadorUseCase
 ) : ViewModel() {
     private val _state = MutableStateFlow(value = EditPartidaUiState())
 
     val state: StateFlow<EditPartidaUiState> = _state.asStateFlow()
+
+    init {
+        cargarJugadores()
+    }
 
     fun onEvent(event: EditPartidaUiEvent) {
         when (event) {
@@ -36,6 +40,7 @@ class EditPartidaViewModel @Inject constructor(
             is EditPartidaUiEvent.FechaChanged -> _state.update {
                 it.copy(fecha = state.value.fecha)
             }
+
             is EditPartidaUiEvent.Jugador1IDChanged -> _state.update {
                 it.copy(jugador1ID = event.value, jugador1Error = null)
             }
@@ -52,9 +57,11 @@ class EditPartidaViewModel @Inject constructor(
                 it.copy(esFinalizada = event.value)
             }
 
-            EditPartidaUiEvent.Delete -> onSave()
+            is EditPartidaUiEvent.CargarJugadores -> cargarJugadores()
 
-            EditPartidaUiEvent.Save -> onDelete()
+            EditPartidaUiEvent.Save -> onSave()
+
+            EditPartidaUiEvent.Delete -> onDelete()
         }
     }
 
@@ -121,12 +128,21 @@ class EditPartidaViewModel @Inject constructor(
         }
     }
 
-    private fun onDelete(){
+    private fun onDelete() {
         val id = state.value.partidaId ?: return
         viewModelScope.launch {
-            _state.update {it.copy(isDeleting = true)}
+            _state.update { it.copy(isDeleting = true) }
             deletePartidaUseCase(id) // Todo Manejar resultado
-            _state.update { it.copy(isDeleting = false, deleted = true)}
+            _state.update { it.copy(isDeleting = false, deleted = true) }
+        }
+    }
+
+    private fun cargarJugadores() {
+        viewModelScope.launch {
+            _state.update { it.copy(jugadoresLoading = true) }
+            observeJugadorUseCase().collect { jugadores ->
+                _state.update { it.copy(jugadoresLoading = false, listaJugadores = jugadores) }
+            }
         }
     }
 }
