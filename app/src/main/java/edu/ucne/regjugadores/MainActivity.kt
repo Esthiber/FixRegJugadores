@@ -8,26 +8,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import edu.ucne.regjugadores.presentation.jugador.edit.EditJugadorScreen
-import edu.ucne.regjugadores.presentation.jugador.edit.EditJugadorUiEvent
-import edu.ucne.regjugadores.presentation.jugador.edit.EditJugadorViewModel
-import edu.ucne.regjugadores.presentation.jugador.list.ListJugadorViewModel
-import edu.ucne.regjugadores.presentation.jugador.list.ListJugadoresScreen
 import edu.ucne.regjugadores.presentation.navigation.RegJugadoresNavHost
-import edu.ucne.regjugadores.presentation.partida.edit.EditPartidaScreen
-import edu.ucne.regjugadores.presentation.partida.edit.EditPartidaViewModel
-import edu.ucne.regjugadores.presentation.partida.list.ListPartidaScreen
-import edu.ucne.regjugadores.presentation.partida.list.ListPartidaViewModel
 import edu.ucne.regjugadores.ui.theme.RegJugadoresTheme
 
 @AndroidEntryPoint

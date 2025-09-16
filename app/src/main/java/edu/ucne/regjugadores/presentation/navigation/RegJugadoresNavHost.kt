@@ -7,7 +7,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
 import edu.ucne.regjugadores.presentation.jugador.JugadoresScreen
 import edu.ucne.regjugadores.presentation.partida.PartidaScreen
 import kotlinx.coroutines.launch
