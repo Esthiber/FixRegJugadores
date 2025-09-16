@@ -44,7 +44,7 @@ fun ListPartidaBody(
         if (state.isLoading) {
             CircularProgressIndicator(
                 modifier = Modifier
-                    .align(androidx.compose.ui.Alignment.Center)
+                    .align(Alignment.Center)
             )
         }
         LazyColumn(
