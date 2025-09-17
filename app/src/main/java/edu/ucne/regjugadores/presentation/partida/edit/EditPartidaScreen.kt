@@ -14,7 +14,9 @@ import edu.ucne.regjugadores.domain.jugador.model.Jugador
 
 @Composable
 fun EditPartidaScreen(
-    viewModel: EditPartidaViewModel = hiltViewModel()
+    viewModel: EditPartidaViewModel = hiltViewModel(),
+    onCancel: () -> Unit = {},
+    onSaveSuccess: () -> Unit = {}
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
