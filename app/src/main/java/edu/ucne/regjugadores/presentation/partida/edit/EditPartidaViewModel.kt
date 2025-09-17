@@ -62,6 +62,8 @@ class EditPartidaViewModel @Inject constructor(
             EditPartidaUiEvent.Save -> onSave()
 
             EditPartidaUiEvent.Delete -> onDelete()
+
+            EditPartidaUiEvent.Cancel -> _state.update { EditPartidaUiState() }
         }
     }
 
@@ -121,7 +123,7 @@ class EditPartidaViewModel @Inject constructor(
             )
             val result = upsertPartidaUseCase(partida)
             result.onSuccess { newId ->
-                _state.value = EditPartidaUiState()
+                _state.update { it.copy(isSaving = false, saved = true) }
             }.onFailure { e ->
                 _state.update { it.copy(isSaving = false) }
             }
