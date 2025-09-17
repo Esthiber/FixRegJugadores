@@ -7,6 +7,6 @@ import androidx.room.PrimaryKey
 class JugadorEntity (
     @PrimaryKey(autoGenerate = true)
     val jugadorId: Int = 0,
-    val nombres: String = "",
-    val partidas: Int = 0
+    val nombres: String,
+    val partidas: Int
 )

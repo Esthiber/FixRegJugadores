@@ -1,7 +1,7 @@
 package edu.ucne.regjugadores.data.jugadores.mapper
 
 import edu.ucne.regjugadores.data.jugadores.local.JugadorEntity
-import edu.ucne.regjugadores.domain.model.Jugador
+import edu.ucne.regjugadores.domain.jugador.model.Jugador
 
 fun JugadorEntity.toDomain(): Jugador = Jugador(
     JugadorId = jugadorId,

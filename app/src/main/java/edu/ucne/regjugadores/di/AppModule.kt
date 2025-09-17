@@ -7,7 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import edu.ucne.regjugadores.data.jugadores.local.database.JugadorDB
+import edu.ucne.regjugadores.data.database.JugadorDB
 import javax.inject.Singleton
 
 @Module
@@ -25,4 +25,7 @@ object AppModule {
 
     @Provides
     fun provideJugadorDao(jugadorDb: JugadorDB) = jugadorDb.jugadorDao()
+
+    @Provides
+    fun providePartidaDao(jugadorDb: JugadorDB) = jugadorDb.partidaDao()
 }
