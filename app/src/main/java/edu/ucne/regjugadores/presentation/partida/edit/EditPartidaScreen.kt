@@ -154,7 +154,53 @@ private fun EditPartidaBody(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // TODO Implementar seleccion de ganador
+        val ganadorSeleccionable = state.jugador1ID != null && state.jugador2ID != null
+        val ganadorID = state.ganadorID
+        Column(modifier = Modifier.fillMaxWidth()) {
+            Text(
+                text = "Selecciona el ganador:",
+                style = MaterialTheme.typography.bodyLarge
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            androidx.compose.material3.Button(
+                onClick = { onEvent(EditPartidaUiEvent.GanadorIDChanged(state.jugador1ID!!)) },
+                enabled = ganadorSeleccionable,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .let {
+                        if (ganadorID == state.jugador1ID) it.then(Modifier) else it
+                    },
+                colors = if (ganadorID == state.jugador1ID)
+                    androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                else
+                    androidx.compose.material3.ButtonDefaults.buttonColors()
+            ) {
+                Text(
+                    text = state.listaJugadores.find { it.JugadorId == state.jugador1ID }?.Nombres ?: "Jugador 1",
+                    color = if (ganadorID == state.jugador1ID) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
+                )
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            androidx.compose.material3.Button(
+                onClick = { onEvent(EditPartidaUiEvent.GanadorIDChanged(state.jugador2ID!!)) },
+                enabled = ganadorSeleccionable,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .let {
+                        if (ganadorID == state.jugador2ID) it.then(Modifier) else it
+                    },
+                colors = if (ganadorID == state.jugador2ID)
+                    androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                else
+                    androidx.compose.material3.ButtonDefaults.buttonColors()
+            ) {
+                Text(
+                    text = state.listaJugadores.find { it.JugadorId == state.jugador2ID }?.Nombres ?: "Jugador 2",
+                    color = if (ganadorID == state.jugador2ID) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "Ganador: ${state.ganadorID?.let { id -> state.listaJugadores.find { it.JugadorId == id }?.Nombres } ?: "No determinado"}",
             style = MaterialTheme.typography.bodyLarge
