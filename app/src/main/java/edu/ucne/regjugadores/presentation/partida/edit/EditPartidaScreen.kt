@@ -27,7 +27,12 @@ fun EditPartidaScreen(
 
     EditPartidaBody(
         state = state,
-        onEvent = viewModel::onEvent
+        onEvent = { event ->
+            when (event) {
+                EditPartidaUiEvent.Cancel -> onCancel()
+                else -> viewModel.onEvent(event)
+            }
+        }
     )
 }
 
