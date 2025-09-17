@@ -19,6 +19,12 @@ fun EditPartidaScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+    LaunchedEffect(state.saved) {
+        if (state.saved) {
+            onSaveSuccess()
+        }
+    }
+
     EditPartidaBody(
         state = state,
         onEvent = viewModel::onEvent
