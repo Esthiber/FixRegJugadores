@@ -26,16 +26,18 @@ import edu.ucne.regjugadores.domain.partida.model.Partida
 
 @Composable
 fun ListPartidaScreen(
-    viewModel: ListPartidaViewModel = hiltViewModel()
+    viewModel: ListPartidaViewModel = hiltViewModel(),
+    onEditPartida: (Int) -> Unit = {}
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    ListPartidaBody(state, viewModel::onEvent)
+    ListPartidaBody(state, viewModel::onEvent, onEditPartida)
 }
 
 @Composable
 fun ListPartidaBody(
     state: ListPartidaUiState,
-    onEvent: (ListPartidaUiEvent) -> Unit
+    onEvent: (ListPartidaUiEvent) -> Unit,
+    onEditPartida: (Int) -> Unit = {}
 ) {
     Box(
         modifier = Modifier
@@ -56,7 +58,7 @@ fun ListPartidaBody(
             items(state.partidas) { partida ->
                 PartidaCard(
                     partida = partida,
-                    onEdit = { onEvent(ListPartidaUiEvent.Edit(partida.partidaId)) },
+                    onEdit = { onEditPartida(partida.partidaId) },
                     onDelete = { onEvent(ListPartidaUiEvent.Delete(partida.partidaId)) }
                 )
             }
