@@ -14,4 +14,5 @@ sealed interface EditPartidaUiEvent {
 
     data object Save: EditPartidaUiEvent
     data object Delete: EditPartidaUiEvent
+    data object Cancel: EditPartidaUiEvent
 }
