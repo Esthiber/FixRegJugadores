@@ -4,11 +4,16 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import edu.ucne.regjugadores.presentation.jugador.JugadoresScreen
+import edu.ucne.regjugadores.presentation.jugador.edit.EditJugadorViewModel
+import edu.ucne.regjugadores.presentation.jugador.list.ListJugadorViewModel
 import edu.ucne.regjugadores.presentation.partida.PartidaScreen
+import edu.ucne.regjugadores.presentation.partida.edit.EditPartidaViewModel
+import edu.ucne.regjugadores.presentation.partida.list.ListPartidaViewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -17,6 +22,13 @@ fun RegJugadoresNavHost(
 ) {
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+
+    val editJugadorViewModel: EditJugadorViewModel = hiltViewModel()
+    val listJugadorViewModel: ListJugadorViewModel = hiltViewModel()
+
+    val editPartidaViewModel: EditPartidaViewModel = hiltViewModel()
+    val listPartidaViewModel: ListPartidaViewModel = hiltViewModel()
+
     DrawerMenu(
         drawerState = drawerState,
         navHostController = navHostController
@@ -31,7 +43,9 @@ fun RegJugadoresNavHost(
                         scope.launch {
                             drawerState.open()
                         }
-                    }
+                    },
+                    editJugadorViewModel,
+                    listJugadorViewModel
                 )
             }
             composable<Screen.Partidas> {
@@ -40,7 +54,9 @@ fun RegJugadoresNavHost(
                         scope.launch {
                             drawerState.open()
                         }
-                    }
+                    },
+                    editPartidaViewModel,
+                    listPartidaViewModel
                 )
             }
         }
