@@ -10,7 +10,6 @@ import androidx.compose.ui.unit.dp
 import edu.ucne.regjugadores.domain.jugador.model.Jugador
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import edu.ucne.regjugadores.domain.jugador.model.Jugador
 
 @Composable
 fun EditPartidaScreen(
