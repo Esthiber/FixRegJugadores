@@ -17,8 +17,8 @@ import edu.ucne.regjugadores.ui.theme.RegJugadoresTheme
 @Composable
 fun JugadoresScreen(
     onDrawer: () -> Unit = {},
-    editJugadorViewModel: EditJugadorViewModel = hiltViewModel(),
-    listJugadorViewModel: ListJugadorViewModel = hiltViewModel()
+    editViewModel: EditJugadorViewModel = hiltViewModel(),
+    listViewModel: ListJugadorViewModel = hiltViewModel()
 ) {
     Scaffold(
         topBar = {
@@ -31,7 +31,7 @@ fun JugadoresScreen(
         Column(
             modifier = Modifier.padding(innerPadding)
         ) {
-            JugadoresScreenBody(editJugadorViewModel, listJugadorViewModel)
+            JugadoresScreenBody(editViewModel, listViewModel)
         }
     }
 }
