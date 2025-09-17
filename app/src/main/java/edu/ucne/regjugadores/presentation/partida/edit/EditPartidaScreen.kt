@@ -211,8 +211,32 @@ private fun EditPartidaBody(
             style = MaterialTheme.typography.bodyLarge
         )
 
-        // TODO Implementar checkbox de esFinalizada
-        // TODO Implementar boton de Guardar
+        // Checkbox para especificar si la partida es finalizada
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Checkbox(
+                checked = state.esFinalizada,
+                onCheckedChange = { checked -> onEvent(EditPartidaUiEvent.EsFinalizadaChanged(checked)) }
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(text = "¿Partida finalizada?")
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Botones de acción: Guardar y Cancelar
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+            Button(
+                onClick = { onEvent(EditPartidaUiEvent.Save) },
+                enabled = !state.jugadoresLoading && state.jugador1ID != 0 && state.jugador2ID != 0 && state.ganadorID != null,
+            ) {
+                Text("Guardar partida")
+            }
+            OutlinedButton(
+                onClick = { onEvent(EditPartidaUiEvent.Cancel) },
+                enabled = !state.jugadoresLoading
+            ) {
+                Text("Cancelar")
+            }
+        }
     }
 }
 
