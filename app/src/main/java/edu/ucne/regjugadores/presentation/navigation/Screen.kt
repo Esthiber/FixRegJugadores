@@ -10,4 +10,7 @@ sealed class Screen
     @Serializable
     data object Partidas:Screen()
 
+    @Serializable
+    data object TicTacToe:Screen()
+
 }
