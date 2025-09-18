@@ -30,4 +30,8 @@ class PartidaRepositoryImpl @Inject constructor(
     override suspend fun deletePartidaById(id: Int) {
         dao.deleteById(id)
     }
+
+    override suspend fun hasPartidas(jugadorId: Int): Boolean {
+        return dao.countPartidasByJugadorId(jugadorId) > 0
+    }
 }
