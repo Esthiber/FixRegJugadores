@@ -15,12 +15,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import edu.ucne.regjugadores.presentation.components.TopBarComponent
 import edu.ucne.regjugadores.presentation.partida.edit.EditPartidaScreen
 import edu.ucne.regjugadores.presentation.partida.edit.EditPartidaUiEvent
 import edu.ucne.regjugadores.presentation.partida.edit.EditPartidaViewModel
 import edu.ucne.regjugadores.presentation.partida.list.ListPartidaScreen
-import edu.ucne.regjugadores.presentation.partida.list.ListPartidaUiEvent
 import edu.ucne.regjugadores.presentation.partida.list.ListPartidaViewModel
 import edu.ucne.regjugadores.ui.theme.RegJugadoresTheme
 
@@ -28,7 +29,8 @@ import edu.ucne.regjugadores.ui.theme.RegJugadoresTheme
 fun PartidaScreen(
     onDrawer: () -> Unit = {},
     editViewModel: EditPartidaViewModel = hiltViewModel(),
-    listViewModel: ListPartidaViewModel = hiltViewModel()
+    listViewModel: ListPartidaViewModel = hiltViewModel(),
+    navController: NavController = rememberNavController()
 ) {
     var showEdit by remember { mutableStateOf(false) }
     var partidaIdToEdit by remember { mutableStateOf<Int?>(null) }
@@ -36,7 +38,9 @@ fun PartidaScreen(
     Scaffold(
         topBar = {
             TopBarComponent(
-                title = if (showEdit) "Editar Partida" else "Registro de Partidas",
+                title = if (showEdit) {
+                    if (partidaIdToEdit != null) "Editar Partida" else "Nueva Partida"
+                } else "Registro de Partidas",
                 onDrawer
             )
         },
@@ -44,8 +48,9 @@ fun PartidaScreen(
             if (!showEdit) {
                 FloatingActionButton(
                     onClick = {
-                        partidaIdToEdit = null
+                        editViewModel.onEvent(EditPartidaUiEvent.Cancel)
                         editViewModel.onEvent(EditPartidaUiEvent.Load(null))
+                        partidaIdToEdit = null
                         showEdit = true
                     }
                 ) {
@@ -57,49 +62,33 @@ fun PartidaScreen(
         Column(
             modifier = Modifier.padding(innerPadding)
         ) {
-            PartidaScreenBody(
-                showEdit = showEdit,
-                editViewModel = editViewModel,
-                listViewModel = listViewModel,
-                onEditPartida = { partidaId ->
-                    partidaIdToEdit = partidaId
-                    editViewModel.onEvent(EditPartidaUiEvent.Load(partidaId))
-                    showEdit = true
-                },
-                onCancelEdit = {
-                    showEdit = false
-                    partidaIdToEdit = null
-                    editViewModel.onEvent(EditPartidaUiEvent.Cancel)
-                },
-                onSaveSuccess = {
-                    showEdit = false
-                    partidaIdToEdit = null
-                }
-            )
+            if (showEdit) {
+                EditPartidaScreen(
+                    viewModel = editViewModel,
+                    onCancel = {
+                        showEdit = false
+                        partidaIdToEdit = null
+                        editViewModel.onEvent(EditPartidaUiEvent.Cancel)
+                    },
+                    onSaveSuccess = {
+                        showEdit = false
+                        partidaIdToEdit = null
+                        listViewModel.onEvent(edu.ucne.regjugadores.presentation.partida.list.ListPartidaUiEvent.Load)
+                    },
+                    navController = navController
+                )
+            } else {
+                ListPartidaScreen(
+                    viewModel = listViewModel,
+                    onEditPartida = { partidaId ->
+                        editViewModel.onEvent(EditPartidaUiEvent.Cancel)
+                        editViewModel.onEvent(EditPartidaUiEvent.Load(partidaId))
+                        partidaIdToEdit = partidaId
+                        showEdit = true
+                    }
+                )
+            }
         }
-    }
-}
-
-@Composable
-fun PartidaScreenBody(
-    showEdit: Boolean,
-    editViewModel: EditPartidaViewModel = hiltViewModel(),
-    listViewModel: ListPartidaViewModel = hiltViewModel(),
-    onEditPartida: (Int) -> Unit = {},
-    onCancelEdit: () -> Unit = {},
-    onSaveSuccess: () -> Unit = {}
-) {
-    if (showEdit) {
-        EditPartidaScreen(
-            viewModel = editViewModel,
-            onCancel = onCancelEdit,
-            onSaveSuccess = onSaveSuccess
-        )
-    } else {
-        ListPartidaScreen(
-            viewModel = listViewModel,
-            onEditPartida = onEditPartida
-        )
     }
 }
 
@@ -107,6 +96,6 @@ fun PartidaScreenBody(
 @Composable
 fun PartidaScreenPreview() {
     RegJugadoresTheme {
-        PartidaScreenBody(showEdit = false)
+        PartidaScreen()
     }
 }
