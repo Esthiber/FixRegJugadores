@@ -30,7 +30,9 @@ class ListPartidaViewModel @Inject constructor(
             ListPartidaUiEvent.Load -> observe()
             is ListPartidaUiEvent.Delete -> onDelete(event.id)
             ListPartidaUiEvent.CreateNew -> _state.update { it.copy(navigationToCreate = true) }
-            is ListPartidaUiEvent.Edit -> _state.update { it.copy(navigateToEditId = event.id) }
+            is ListPartidaUiEvent.Edit -> _state.update {
+                it.copy(navigateToEditId = event.id)
+            }
             is ListPartidaUiEvent.ShowMessage -> _state.update { it.copy(message = event.message) }
         }
     }
