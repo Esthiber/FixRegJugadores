@@ -22,4 +22,7 @@ interface PartidaDao {
 
     @Query(value = "DELETE FROM partidas WHERE partidaId = :id")
     suspend fun deleteById(id: Int)
+
+    @Query(value = "SELECT COUNT(*) FROM partidas WHERE jugador1ID = :jugadorId OR jugador2ID = :jugadorId OR ganadorID = :jugadorId")
+    suspend fun countPartidasByJugadorId(jugadorId: Int): Int
 }
