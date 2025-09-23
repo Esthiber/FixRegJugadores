@@ -1,18 +1,38 @@
 package edu.ucne.regjugadores.presentation.partida.edit
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import edu.ucne.regjugadores.domain.jugador.model.Jugador
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import edu.ucne.regjugadores.domain.jugador.model.Jugador
 import edu.ucne.regjugadores.presentation.navigation.Screen
 
 @Composable
@@ -172,119 +192,6 @@ private fun EditPartidaBody(
         val ganadorSeleccionable = jugador1Seleccionado && jugador2Seleccionado
         val ganadorID = state.ganadorID
 
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant
-            )
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
-                Text(
-                    text = "Selecciona el ganador:",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-
-                    Button(
-                        onClick = { onEvent(EditPartidaUiEvent.GanadorIDChanged(state.jugador1ID)) },
-                        enabled = ganadorSeleccionable,
-                        modifier = Modifier.weight(1f),
-                        border = if (ganadorID == state.jugador1ID)
-                            BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
-                        else null,
-                        colors = if (ganadorID == state.jugador1ID)
-                            ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
-                        else
-                            ButtonDefaults.buttonColors()
-                    ) {
-                        Text(
-                            text = state.listaJugadores.find { it.JugadorId == state.jugador1ID }?.Nombres
-                                ?: "Jugador 1",
-                            color = if (ganadorID == state.jugador1ID) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onPrimary
-                        )
-                    }
-
-                    Button(
-                        onClick = { onEvent(EditPartidaUiEvent.GanadorIDChanged(state.jugador2ID)) },
-                        enabled = ganadorSeleccionable,
-                        modifier = Modifier.weight(1f),
-                        border = if (ganadorID == state.jugador2ID)
-                            BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
-                        else null,
-                        colors = if (ganadorID == state.jugador2ID)
-                            ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
-                        else
-                            ButtonDefaults.buttonColors()
-                    ) {
-                        Text(
-                            text = state.listaJugadores.find { it.JugadorId == state.jugador2ID }?.Nombres
-                                ?: "Jugador 2",
-                            color = if (ganadorID == state.jugador2ID) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onPrimary
-                        )
-                    }
-                }
-
-                if (!ganadorSeleccionable) {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "Seleccione ambos jugadores para elegir un ganador",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.error
-                    )
-                }
-
-                if (ganadorID != null) {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "Ganador: ${state.listaJugadores.find { it.JugadorId == ganadorID }?.Nombres}",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Checkbox para especificar si la partida es finalizada
-        Card(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Checkbox(
-                    checked = state.esFinalizada,
-                    onCheckedChange = { checked ->
-                        onEvent(
-                            EditPartidaUiEvent.EsFinalizadaChanged(
-                                checked
-                            )
-                        )
-                    }
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = "¿Partida finalizada?",
-                    style = MaterialTheme.typography.bodyLarge
-                )
-            }
-        }
-
         Spacer(modifier = Modifier.height(24.dp))
 
         Row(
@@ -294,7 +201,7 @@ private fun EditPartidaBody(
 
             Button(
                 onClick = { onEvent(EditPartidaUiEvent.Save) },
-                enabled = !state.jugadoresLoading && jugador1Seleccionado && jugador2Seleccionado && ganadorID != null,
+                enabled = !state.jugadoresLoading && jugador1Seleccionado && jugador2Seleccionado,
                 modifier = Modifier.weight(1f)
             ) {
                 Text("Guardar partida")
