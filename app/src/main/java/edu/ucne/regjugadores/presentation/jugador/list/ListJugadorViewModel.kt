@@ -43,12 +43,28 @@ class ListJugadorViewModel @Inject constructor(
         }
     }
 
-    private fun onDelete(id: Int){
-        viewModelScope.launch{
-            deleteJugadorByIdUseCase(id)
-            onEvent(ListJugadorUiEvent.ShowMessage("Jugador eliminado $id"))
+    private fun onDelete(id: Int) {
+        viewModelScope.launch {
+            when (val result = deleteJugadorByIdUseCase(id)) {
+                is DeleteJugadorUseCase.DeleteResult.Success -> {
+                    _state.update {
+                        it.copy(message = "Jugador eliminado exitosamente")
+                    }
+                }
+                is DeleteJugadorUseCase.DeleteResult.HasPartidas -> {
+                    _state.update {
+                        it.copy(message = "No se puede eliminar el jugador porque tiene partidas asociadas")
+                    }
+                }
+                is DeleteJugadorUseCase.DeleteResult.Error -> {
+                    _state.update {
+                        it.copy(message = "Error al eliminar jugador: ${result.message}")
+                    }
+                }
+            }
         }
     }
+
     fun onNavigationHandled(){
         _state.update{it.copy(navigationToCreate = false, navigateToEditId = null)}
     }

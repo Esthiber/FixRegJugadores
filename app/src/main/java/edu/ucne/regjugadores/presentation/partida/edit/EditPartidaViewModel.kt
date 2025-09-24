@@ -2,6 +2,7 @@ package edu.ucne.regjugadores.presentation.partida.edit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import edu.ucne.regjugadores.domain.partida.model.Partida
 import edu.ucne.regjugadores.domain.partida.usecase.DeletePartidaUseCase
@@ -59,19 +60,60 @@ class EditPartidaViewModel @Inject constructor(
 
             is EditPartidaUiEvent.CargarJugadores -> cargarJugadores()
 
-            EditPartidaUiEvent.Save -> onSave()
+            EditPartidaUiEvent.Save -> {
+                val currentJugadores = state.value.listaJugadores
+                val isCurrentlyLoading = state.value.jugadoresLoading
+                onSave()
+                _state.update {
+                    EditPartidaUiState(
+                        listaJugadores = currentJugadores,
+                        jugadoresLoading = isCurrentlyLoading
+                    )
+                }
+            }
 
             EditPartidaUiEvent.Delete -> onDelete()
 
-            EditPartidaUiEvent.Cancel -> _state.update { EditPartidaUiState() }
+            EditPartidaUiEvent.Cancel -> {
+                val currentJugadores = state.value.listaJugadores
+                val isCurrentlyLoading = state.value.jugadoresLoading
+
+                _state.update {
+                    EditPartidaUiState(
+                        listaJugadores = currentJugadores,
+                        jugadoresLoading = isCurrentlyLoading
+                    )
+                }
+            }
         }
     }
 
     private fun onLoad(id: Int?) {
+        // Reset the saved flag whenever loading a new partida to prevent immediate closing
+        _state.update {
+            it.copy(
+                saved = false,
+                deleted = false,
+                jugador1Error = null,
+                jugador2Error = null
+            )
+        }
+
         if (id == null || id == 0) {
-            _state.update { it.copy(isNew = true, partidaId = null) }
+            _state.update {
+                it.copy(
+                    isNew = true,
+                    partidaId = null,
+                    jugador1ID = 0,
+                    jugador2ID = 0,
+                    ganadorID = null,
+                    esFinalizada = false,
+                    fecha = Date().toString()
+                )
+            }
             return
         }
+
         viewModelScope.launch {
             val partida = getPartidaByIdUseCase(id)
             if (partida != null) {
@@ -88,24 +130,31 @@ class EditPartidaViewModel @Inject constructor(
                 }
             }
         }
-
-
     }
 
     private fun onSave() {
+
+        val currentJugadores = state.value.listaJugadores
+        val isCurrentlyLoading = state.value.jugadoresLoading
+
         val jugador1ID = state.value.jugador1ID
         val jugador2ID = state.value.jugador2ID
 
         val jugador1Validations = validateJugador1(jugador1ID.toString(), jugador2ID.toString())
         val jugador2Validations = validateJugador2(jugador2ID.toString(), jugador1ID.toString())
 
-
         if (!jugador1Validations.isValid || !jugador2Validations.isValid) {
             _state.update {
                 it.copy(
                     jugador1Error = jugador1Validations.error,
-                    jugador2Error = jugador2Validations.error
+                    jugador2Error = jugador2Validations.error,
+
                 )
+
+//                EditPartidaUiState(
+//                    listaJugadores = currentJugadores,
+//                    jugadoresLoading = isCurrentlyLoading
+//                )
             }
             return
         }

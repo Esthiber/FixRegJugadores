@@ -9,4 +9,5 @@ interface PartidaRepository {
     suspend fun upsert(partida: Partida): Int
     suspend fun deletePartida(partida: Partida)
     suspend fun deletePartidaById(id: Int)
+    suspend fun hasPartidas(jugadorId: Int): Boolean
 }
