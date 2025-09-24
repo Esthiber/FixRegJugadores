@@ -32,6 +32,25 @@ fun PartidaScreen(
     listViewModel: ListPartidaViewModel = hiltViewModel(),
     navController: NavController = rememberNavController()
 ) {
+
+    PartidaScreenBody(
+        onDrawer = onDrawer,
+        editViewModel = editViewModel,
+        listViewModel = listViewModel,
+        navController = navController
+    )
+
+}
+
+@Composable
+fun PartidaScreenBody(
+    showEdit: Boolean = false,
+    partidaIdToEdit: Int? = null,
+    onDrawer: () -> Unit = {},
+    editViewModel: EditPartidaViewModel,
+    listViewModel: ListPartidaViewModel,
+    navController: NavController
+) {
     var showEdit by remember { mutableStateOf(false) }
     var partidaIdToEdit by remember { mutableStateOf<Int?>(null) }
 
@@ -96,6 +115,11 @@ fun PartidaScreen(
 @Composable
 fun PartidaScreenPreview() {
     RegJugadoresTheme {
-        PartidaScreen()
+        PartidaScreenBody(
+            onDrawer = {},
+            editViewModel = hiltViewModel(),
+            listViewModel = hiltViewModel(),
+            navController = rememberNavController()
+        )
     }
 }
