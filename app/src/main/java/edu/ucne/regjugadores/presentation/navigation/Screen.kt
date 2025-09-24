@@ -11,6 +11,9 @@ sealed class Screen
     data object Partidas:Screen()
 
     @Serializable
+    data object Logros:Screen()
+
+    @Serializable
     data object TicTacToe:Screen()
 
 }
