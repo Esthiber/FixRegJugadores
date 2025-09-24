@@ -64,6 +64,7 @@ class ListJugadorViewModel @Inject constructor(
             }
         }
     }
+
     fun onNavigationHandled(){
         _state.update{it.copy(navigationToCreate = false, navigateToEditId = null)}
     }
