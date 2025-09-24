@@ -36,7 +36,7 @@ fun RegJugadoresNavHost(
     ) {
         NavHost(
             navController = navHostController,
-            startDestination = Screen.Jugadores
+            startDestination = Screen.Partidas
         ) {
             composable<Screen.Jugadores> {
                 JugadoresScreen(
