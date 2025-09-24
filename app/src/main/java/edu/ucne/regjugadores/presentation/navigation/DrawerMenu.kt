@@ -13,7 +13,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
-import edu.ucne.regjugadores.R
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import edu.ucne.regjugadores.R
 import kotlinx.coroutines.launch
 
 @Composable
@@ -73,6 +73,14 @@ fun DrawerMenu(
                             isSelected = selectedItem.value == stringResource(R.string.drawer_partidas)
                         ) {
                             handleItemClick(Screen.Partidas, it)
+                        }
+
+                        DrawerItem(
+                            title = stringResource(R.string.drawer_logros),
+                            icon = Icons.Filled.Addchart,
+                            isSelected = selectedItem.value == stringResource(R.string.drawer_logros)
+                        ) {
+                            handleItemClick(Screen.Logros, it)
                         }
 
                     }
