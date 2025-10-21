@@ -26,35 +26,6 @@ class MainActivity : ComponentActivity() {
                 val navHost = rememberNavController()
                 RegJugadoresNavHost(navHost)
             }
-
-//            RegJugadoresTheme {
-//                val editPartidaViewModel: EditPartidaViewModel = hiltViewModel()
-//                val listPartidaViewModel: ListPartidaViewModel = hiltViewModel()
-//
-//                val editJugadorViewModel: EditJugadorViewModel = hiltViewModel()
-//                val listJugadorViewModel: ListJugadorViewModel = hiltViewModel()
-//                val listState by listJugadorViewModel.state.collectAsState()
-//
-//                LaunchedEffect(listState.navigateToEditId) {
-//                    listState.navigateToEditId?.let { id ->
-//                        editJugadorViewModel.onEvent(EditJugadorUiEvent.Load(id))
-//                        listJugadorViewModel.onNavigationHandled()
-//                    }
-//                }
-//
-//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    Column(
-//                        modifier = Modifier
-//                            .fillMaxSize()
-//                            .padding(innerPadding)
-//                    ){
-//                        EditPartidaScreen(viewModel = editPartidaViewModel)
-//                        ListPartidaScreen(viewModel = listPartidaViewModel)
-////                        EditJugadorScreen(viewModel = editJugadorViewModel)
-////                        ListJugadoresScreen(viewModel = listJugadorViewModel)
-//                    }
-//                }
-//            }
         }
     }
 }
