@@ -11,5 +11,5 @@ interface TicTacToeApi {
     suspend fun getMovimientos(@Path("partidaId") id: Int): List<movimientosDto>
 
     @POST("api/Movimientos")
-    suspend fun postMovimiento(@Body movimiento: movimientosDto): Unit
+    suspend fun postMovimiento(@Body movimiento: movimientosDto)
 }
