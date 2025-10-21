@@ -41,7 +41,7 @@ class TicTacToeViewModel @Inject constructor(
     private fun refreshMovimientos() {
         val partidaIdInt = _state.value.partidaId.toIntOrNull()
         if (partidaIdInt == null) {
-            _state.update { it.copy(error = "ID de partida invalido") }
+            _state.update { it.copy(error = "ID de partida inválido") }
             return
         }
 
