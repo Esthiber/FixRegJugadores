@@ -8,11 +8,14 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface JugadorDao {
-    @Query(value = "SELECT * FROM jugadores ORDER BY jugadorId DESC")
+    @Query(value = "SELECT * FROM jugadores ORDER BY id DESC")
     fun ObserveAll(): Flow<List<JugadorEntity>>
 
-    @Query(value = "SELECT * FROM jugadores WHERE jugadorId = :id")
+    @Query(value = "SELECT * FROM jugadores WHERE id = :id")
     suspend fun getById(id: Int?): JugadorEntity?
+
+    @Query(value = "SELECT * FROM jugadores WHERE id = :id")
+    suspend fun getById(id: String): JugadorEntity?
 
     @Upsert
     suspend fun upsert(entity: JugadorEntity)
@@ -20,9 +23,15 @@ interface JugadorDao {
     @Delete
     suspend fun delete(entity: JugadorEntity)
 
-    @Query(value = "DELETE FROM jugadores WHERE jugadorId = :id")
+    @Query(value = "DELETE FROM jugadores WHERE id = :id")
     suspend fun deleteById(id: Int)
 
-    @Query("SELECT EXISTS(SELECT 1 FROM jugadores WHERE LOWER(TRIM(nombres)) = LOWER(TRIM(:nombre)) AND (:idJugadorActual IS NULL OR jugadorId != :idJugadorActual))")
+    @Query(value = "DELETE FROM jugadores WHERE id = :id")
+    suspend fun deleteById(id: String)
+
+    @Query("SELECT EXISTS(SELECT 1 FROM jugadores WHERE LOWER(TRIM(nombres)) = LOWER(TRIM(:nombre)) AND (:idJugadorActual IS NULL OR id != :idJugadorActual))")
     suspend fun existByName(nombre: String, idJugadorActual: Int?): Boolean
+
+    @Query("SELECT * FROM jugadores WHERE isPendingCreate = 1")
+    suspend fun getPendingCreateJugadores(): List<JugadorEntity>
 }
