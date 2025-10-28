@@ -15,13 +15,12 @@ fun validateNombres(value:String): ValidacionesJugador{
     return ValidacionesJugador(true)
 }
 
-fun validatePartidas(value: String): ValidacionesJugador {
+fun validateEmail(value:String): ValidacionesJugador{
     if(value.isBlank())
-        return ValidacionesJugador(false, "El campo partidas no puede estar vacio")
-
-    val partidas = value.toIntOrNull()
-    if(partidas == null || partidas < 0)
-        return ValidacionesJugador(false, "El campo partidas debe ser un numero valido mayor o igual a 0")
+        return ValidacionesJugador(false, "El email no puede estar vacio")
+    val emailRegex = "^[A-Za-z](.*)([@]{1})(.+)(\\.)(.+)"
+    if(!value.matches(emailRegex.toRegex()))
+        return ValidacionesJugador(false, "El email no es valido")
 
     return ValidacionesJugador(true)
 }
