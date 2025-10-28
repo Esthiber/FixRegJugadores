@@ -28,8 +28,8 @@ class JugadorRepositoryImpl @Inject constructor(
         localDataSource.getById(id)?.toDomain()
 
     override suspend fun createJugadorLocal(jugador: Jugador): Resource<Jugador> {
-       val pending = jugador.copy(isPendingCreate = true)
-         localDataSource.upsert(pending.toEntity())
+        val pending = jugador.copy(isPendingCreate = true)
+        localDataSource.upsert(pending.toEntity())
         return Resource.Success(pending)
     }
 

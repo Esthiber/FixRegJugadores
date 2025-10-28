@@ -1,5 +1,6 @@
 package edu.ucne.regjugadores.domain.jugador.usecase
 
+import edu.ucne.regjugadores.data.remote.Resource
 import edu.ucne.regjugadores.domain.jugador.model.Jugador
 import edu.ucne.regjugadores.domain.jugador.repository.JugadorRepository
 import javax.inject.Inject
@@ -7,16 +8,16 @@ import javax.inject.Inject
 class UpsertJugadorUseCase @Inject constructor(
     private val repository: JugadorRepository
 ) {
-    suspend operator fun invoke(jugador: Jugador): Result<Int> {
-        val nombreResult = validateNombres(jugador.Nombres)
-        val partidasResult = validatePartidas(jugador.Partidas.toString())
+    suspend operator fun invoke(jugador: Jugador): Resource<Unit> {
+        val nombreResult = validateNombres(jugador.nombres)
+        val emailResult = validateEmail(jugador.email)
 
         if (!nombreResult.isValid) {
-            return Result.failure(IllegalArgumentException(nombreResult.error))
+            return Resource.Error(IllegalArgumentException(nombreResult.error).toString())
         }
-        if (!partidasResult.isValid) {
-            return Result.failure(IllegalArgumentException(partidasResult.error))
+        if (!emailResult.isValid) {
+            return Resource.Error(IllegalArgumentException(emailResult.error).toString())
         }
-        return runCatching { repository.upsert(jugador) }
+        return repository.upsert(jugador)
     }
 }
