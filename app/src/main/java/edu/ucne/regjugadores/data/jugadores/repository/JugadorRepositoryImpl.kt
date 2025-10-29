@@ -1,7 +1,6 @@
 package edu.ucne.regjugadores.data.jugadores.repository
 
 import edu.ucne.regjugadores.data.jugadores.local.JugadorDao
-import edu.ucne.regjugadores.data.jugadores.local.JugadorEntity
 import edu.ucne.regjugadores.data.jugadores.mapper.toDomain
 import edu.ucne.regjugadores.data.jugadores.mapper.toEntity
 import edu.ucne.regjugadores.data.remote.RemoteDataSource
@@ -87,14 +86,7 @@ class JugadorRepositoryImpl @Inject constructor(
             val req = JugadorRequest(jugador.nombres, jugador.email)
             when (val result = remoteDataSource.createJugador(req)) {
                 is Resource.Success -> {
-                    val synced =
-                        JugadorEntity(// TODO Ojo, no funciono el 'jugador.copy', revisar esta alternativa.
-                            id = jugador.id,
-                            remoteId = result.data?.jugadorId,
-                            nombres = jugador.nombres,
-                            email = jugador.email,
-                            isPendingCreate = false
-                        )
+                    val synced = jugador.copy(remoteId = result.data?.jugadorId, isPendingCreate = false)
                     localDataSource.upsert(synced)
                 }
 

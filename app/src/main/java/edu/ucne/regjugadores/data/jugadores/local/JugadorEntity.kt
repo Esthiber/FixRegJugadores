@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import java.util.UUID
 
 @Entity(tableName = "jugadores")
-class JugadorEntity (
+data class JugadorEntity (
     @PrimaryKey val id: String = UUID.randomUUID().toString(),
     val remoteId: Int? = null,
     val nombres: String,
