@@ -15,7 +15,7 @@ import edu.ucne.regjugadores.data.partidas.local.PartidaEntity
         PartidaEntity::class,
         LogroEntity::class
     ],
-    version = 4,
+    version = 5,
     exportSchema = false
 )
 abstract class JugadorDB : RoomDatabase() {
