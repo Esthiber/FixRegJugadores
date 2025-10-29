@@ -9,14 +9,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import edu.ucne.regjugadores.presentation.jugador.JugadoresScreen
-import edu.ucne.regjugadores.presentation.jugador.edit.EditJugadorViewModel
-import edu.ucne.regjugadores.presentation.jugador.list.ListJugadorViewModel
 import edu.ucne.regjugadores.presentation.logro.LogrosScreen
 import edu.ucne.regjugadores.presentation.logro.edit.EditLogroViewModel
 import edu.ucne.regjugadores.presentation.logro.list.ListLogroViewModel
-import edu.ucne.regjugadores.presentation.partida.PartidaScreen
-import edu.ucne.regjugadores.presentation.partida.edit.EditPartidaViewModel
-import edu.ucne.regjugadores.presentation.partida.list.ListPartidaViewModel
 import edu.ucne.regjugadores.presentation.tictactoe.TicTacToeScreen
 import kotlinx.coroutines.launch
 
@@ -26,12 +21,6 @@ fun RegJugadoresNavHost(
 ) {
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-
-    val editJugadorViewModel: EditJugadorViewModel = hiltViewModel()
-    val listJugadorViewModel: ListJugadorViewModel = hiltViewModel()
-
-    val editPartidaViewModel: EditPartidaViewModel = hiltViewModel()
-    val listPartidaViewModel: ListPartidaViewModel = hiltViewModel()
 
     val editLogroViewModel: EditLogroViewModel = hiltViewModel()
     val listLogroViewModel: ListLogroViewModel = hiltViewModel()
@@ -45,28 +34,11 @@ fun RegJugadoresNavHost(
             startDestination = Screen.TicTacToe
         ) {
             composable<Screen.Jugadores> {
-                JugadoresScreen(
-                    onDrawer = {
-                        scope.launch {
-                            drawerState.open()
-                        }
-                    },
-                    editJugadorViewModel,
-                    listJugadorViewModel
-                )
+                JugadoresScreen()
             }
 
             composable<Screen.Partidas> {
-                PartidaScreen(
-                    onDrawer = {
-                        scope.launch {
-                            drawerState.open()
-                        }
-                    },
-                    editPartidaViewModel,
-                    listPartidaViewModel,
-                    navController = navHostController
-                )
+
             }
 
             composable<Screen.Logros> {
