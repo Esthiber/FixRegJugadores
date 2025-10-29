@@ -12,7 +12,7 @@ class RemoteDataSource @Inject constructor(
     suspend fun getMovimientos(partidaId: Int): List<movimientosDto> =
         api.getMovimientos(partidaId)
 
-    suspend fun postMovimiento(movimiento: movimientosDto): Unit =
+    suspend fun postMovimiento(movimiento: movimientosDto) =
         api.postMovimiento(movimiento)
 
     suspend fun createJugador(req: JugadorRequest): Resource<JugadorResponse> {
