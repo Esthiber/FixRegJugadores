@@ -11,7 +11,7 @@ import edu.ucne.regjugadores.data.remote.worker.SyncWorker
 import javax.inject.Inject
 
 @HiltAndroidApp
-class RegJugadoresApp() : Application(), Configuration.Provider {
+class RegJugadoresApp : Application(), Configuration.Provider {
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
