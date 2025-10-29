@@ -1,5 +1,6 @@
 package edu.ucne.regjugadores.data.jugadores.repository
 
+import android.util.Log
 import edu.ucne.regjugadores.data.jugadores.local.JugadorDao
 import edu.ucne.regjugadores.data.jugadores.mapper.toDomain
 import edu.ucne.regjugadores.data.jugadores.mapper.toEntity
@@ -84,14 +85,27 @@ class JugadorRepositoryImpl @Inject constructor(
         val pending = localDataSource.getPendingCreateJugadores()
         for (jugador in pending) {
             val req = JugadorRequest(jugador.nombres, jugador.email)
+            Log.d("SyncJugadores", "Sincronizando jugador ${req.nombres} ${req.email}")
             when (val result = remoteDataSource.createJugador(req)) {
                 is Resource.Success -> {
-                    val synced = jugador.copy(remoteId = result.data?.jugadorId, isPendingCreate = false)
+                    val jugadorId = result.data?.jugadorId
+                    if (jugadorId == null) {
+                        Log.e("SyncJugadores", "API no devolvio jugadorId para ${jugador.nombres}")
+                        return Resource.Error("API no devolvio el ID del jugador creado")
+                    }
+                    Log.d("SyncJugadores", "Jugador sincronizado con ID: $jugadorId")
+                    val synced = jugador.copy(remoteId = jugadorId, isPendingCreate = false)
                     localDataSource.upsert(synced)
+                    Log.d("SyncJugadores", "Sincronizado jugador ${jugador.nombres} con remoteId: $jugadorId")
                 }
 
-                is Resource.Error -> return Resource.Error("Fallo la sincronizacion")
-                else -> {}
+                is Resource.Error -> {
+                    Log.e("SyncJugadores", "Fallo la sincronizacion de ${jugador.id} ${jugador.nombres} ${result.message}")
+                    return Resource.Error("Fallo la sincronizacion")
+                }
+                else -> {
+                    Log.e("SyncJugadores", "Error desconocido al sincronizar ${jugador.id} ${jugador.nombres}")
+                }
             }
         }
         return Resource.Success(Unit)
